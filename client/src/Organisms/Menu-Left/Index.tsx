@@ -9,7 +9,7 @@ const MenuLeft: FC = () => {
 	const [mode, setMode] = useState(options[0]);
 
 	return (
-		<section>
+		<section className="menu--left">
 			<Heading type="Primary" size="three" text="Mode" />
 			<LabelSelectGrid
 				options={options}

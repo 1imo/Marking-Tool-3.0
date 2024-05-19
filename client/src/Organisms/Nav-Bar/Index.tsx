@@ -2,6 +2,7 @@ import { FC } from "react";
 import Input from "../../Molecules/Input/Index";
 import BtnIcon from "../../Molecules/Btn-Icon/Index";
 import "./Style.css";
+import Heading from "../../Atoms/Headings";
 
 // Types
 type Left = "Search" | "Back";
@@ -12,19 +13,11 @@ interface Props {
 	right?: Right;
 }
 
-const NavBar: FC<Props> = ({ left, right }) => {
+const NavBar: FC<Props> = () => {
 	return (
 		<nav className="nav-bar">
 			<div className="nav-bar__left">
-				{left === "Search" ? (
-					<Input type="Search" placeholder="Search" />
-				) : (
-					<BtnIcon type="Back" />
-				)}
-			</div>
-
-			<div className="nav-bar__right">
-				{right === "Basket" ? <BtnIcon type="Basket" /> : null}
+				<Heading type="Primary" size="one" text="Mark30" />
 			</div>
 		</nav>
 	);

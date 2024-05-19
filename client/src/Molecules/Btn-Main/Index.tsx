@@ -5,7 +5,7 @@ import "./Style.css";
 type BtnType = "submit";
 
 interface Props {
-	text: string;
+	text?: string;
 	type?: BtnType;
 	cb: (value: boolean) => void;
 }

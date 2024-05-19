@@ -249,10 +249,3 @@ img {
 .margin-right-large {
 	margin-right: 32px;
 }
-
-@media (min-width: 550px) {
-	main {
-		padding: 0px calc(100vw / 6) !important;
-		box-sizing: border-box !important;
-	}
-}

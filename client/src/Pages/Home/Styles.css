@@ -1,0 +1,16 @@
+main {
+	display: grid;
+	width: 100vw;
+	grid-template-columns: repeat(12, 1fr);
+	column-gap: 32px;
+	box-sizing: border-box;
+	padding: 96px 0;
+}
+
+.menu--left {
+	grid-column: 2 / span 2;
+}
+
+.menu--right {
+	grid-column: 10 / span 2;
+}

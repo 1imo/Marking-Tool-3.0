@@ -4,7 +4,7 @@ import "./Style.css";
 import { useNavigate } from "react-router";
 
 // Types
-type Icon = "Basket" | "Back";
+type Icon = "Basket" | "Back" | "Remove";
 type Colour =
 	| "--grey-one"
 	| "--grey-two"
@@ -32,10 +32,13 @@ const BtnIcon: FC<Props> = ({ type, colour = "--grey-one" }) => {
 
 	let icon;
 
-	if (type == "Basket") {
-		icon = <Icon type="Basket" colour={colour} />;
-	} else {
-		icon = <Icon type="Back" colour={colour} />;
+	switch (type) {
+		case "Basket":
+			icon = <Icon type="Basket" colour={colour} />;
+		case "Back":
+			icon = <Icon type="Back" colour={colour} />;
+		case "Remove":
+			icon = <Icon type="Remove" colour={colour} />;
 	}
 
 	return (

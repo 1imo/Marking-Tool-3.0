@@ -8,8 +8,8 @@ type Icon = "Search" | "User" | "Email" | "House" | "Pin" | "Map";
 type InputType = "text" | "email" | "number" | "password";
 
 // Props
-interface Props {
-	type: Icon;
+export interface Props {
+	type?: Icon;
 	placeholder: string;
 	label?: string;
 	required?: Boolean;

@@ -1,0 +1,12 @@
+.input--grid {
+	display: flex;
+	flex-direction: column;
+	row-gap: 16px;
+	grid-column: 5 / span 4;
+}
+
+.input--grid-row {
+	display: flex;
+	flex-direction: row-reverse;
+	column-gap: 8px;
+}

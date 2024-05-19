@@ -17,7 +17,7 @@ const MenuRight: FC = () => {
 	const [class_, setClass] = useState(classes[0]);
 
 	return (
-		<section>
+		<section className="menu--right">
 			<Heading type="Primary" size="three" text="Test" />
 			<LabelSelectGrid
 				options={tests}

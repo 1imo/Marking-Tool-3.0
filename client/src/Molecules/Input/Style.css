@@ -3,6 +3,7 @@
 	flex-direction: column;
 	row-gap: 8px;
 	box-sizing: border-box;
+	width: 100%;
 }
 
 .input > label {
