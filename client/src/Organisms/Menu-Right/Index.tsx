@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import LabelSelectGrid from "../Label-Select-Grid/Index";
 import Heading from "../../Atoms/Headings";
+import { InMemory } from "../../Services/Memory";
 
 const MenuRight: FC = () => {
 	const tests = [
@@ -16,21 +17,15 @@ const MenuRight: FC = () => {
 	const classes = ["9Y2E-G1", "7M1A-S3", "8S3F-G2", "11B2C-S1", "10G1D-G3"];
 	const [class_, setClass] = useState(classes[0]);
 
+	InMemory.setCurrentClass(class_);
+
 	return (
 		<section className="menu--right">
 			<Heading type="Primary" size="three" text="Test" />
-			<LabelSelectGrid
-				options={tests}
-				selected={test}
-				callback={setTest}
-			/>
+			<LabelSelectGrid options={tests} selected={test} callback={setTest} />
 
 			<Heading type="Primary" size="three" text="Class" />
-			<LabelSelectGrid
-				options={classes}
-				selected={class_}
-				callback={setClass}
-			/>
+			<LabelSelectGrid options={classes} selected={class_} callback={setClass} />
 		</section>
 	);
 };

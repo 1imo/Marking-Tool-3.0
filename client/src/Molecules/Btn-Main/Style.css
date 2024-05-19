@@ -19,25 +19,20 @@
 	background-color: var(--grey-two);
 }
 
-.btn-main:hover > p,
-.btn-main:focus > p {
-	color: var(--grey-three) !important;
-}
-
 .btn-main:active {
 	background-color: var(--grey-one);
 }
 
 .btn-main:active > p {
-	color: var(--grey-three) !important;
+	color: var(--grey-one) !important;
 }
 
 .btn-main:not(:hover) {
-	background: var(--grey-three);
+	background: var(--grey-two);
 }
 
 .btn-main:not(:hover) > p {
-	color: var(--grey-one) !important;
+	color: var(--grey-one);
 }
 
 @media (hover: none) {
@@ -48,7 +43,7 @@
 	}
 
 	.btn-main > p {
-		color: var(--grey-three) !important;
+		color: var(--grey-three);
 	}
 
 	.btn-main:active {

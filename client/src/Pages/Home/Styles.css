@@ -5,6 +5,7 @@ main {
 	column-gap: 32px;
 	box-sizing: border-box;
 	padding: 96px 0;
+	height: 100svh;
 }
 
 .menu--left {

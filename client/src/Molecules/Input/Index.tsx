@@ -4,7 +4,7 @@ import "./Style.css";
 import Text from "../../Atoms/Text";
 
 // Types
-type Icon = "Search" | "User" | "Email" | "House" | "Pin" | "Map";
+type Icon = "Search" | "User" | "Email" | "House" | "Pin" | "Map" | "Pie";
 type InputType = "text" | "email" | "number" | "password";
 
 // Props
@@ -15,6 +15,7 @@ export interface Props {
 	required?: Boolean;
 	name?: string;
 	inputType?: InputType;
+	r?: RefObject<HTMLInputElement>;
 }
 
 const Input: FC<Props> = ({
@@ -24,10 +25,23 @@ const Input: FC<Props> = ({
 	required = false,
 	name = undefined,
 	inputType = "text",
+	r,
 }) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement | null>(null);
 	let icon;
+
+	const setRefs =
+		(...refs) =>
+		(element) => {
+			refs.forEach((ref) => {
+				if (typeof ref === "function") {
+					ref(element);
+				} else if (ref) {
+					ref.current = element;
+				}
+			});
+		};
 
 	switch (type) {
 		case "Search":
@@ -48,18 +62,17 @@ const Input: FC<Props> = ({
 		case "Map":
 			icon = <Icon type="Map" colour="--grey-two" />;
 			break;
+		case "Pie":
+			icon = <Icon type="Pie" colour="--grey-two" />;
+			break;
 	}
 
 	useEffect(() => {
 		const handleInputChange = () => {
 			if (inputRef.current?.value && inputRef.current.value.length > 0) {
-				containerRef.current?.classList.add(
-					"input__container--not-empty"
-				);
+				containerRef.current?.classList.add("input__container--not-empty");
 			} else {
-				containerRef.current?.classList.remove(
-					"input__container--not-empty"
-				);
+				containerRef.current?.classList.remove("input__container--not-empty");
 			}
 		};
 
@@ -74,30 +87,20 @@ const Input: FC<Props> = ({
 		<section className="input">
 			{label ? (
 				<div>
-					{label ? (
-						<Text
-							size="two"
-							text={String(label)}
-							colour="--grey-one"
-						/>
-					) : null}
-					{required ? (
-						<Text size="two" colour="--red" text="*" />
-					) : null}
+					{label ? <Text size="two" text={String(label)} colour="--grey-one" /> : null}
+					{required ? <Text size="two" colour="--red" text="*" /> : null}
 				</div>
 			) : null}
 
 			<div
-				className={`input__container ${
-					type == "Search" ? "input__container--search" : ""
-				}`}
+				className={`input__container ${type == "Search" ? "input__container--search" : ""}`}
 				aria-label="region"
 				ref={containerRef}
 			>
 				{icon}
 				<input
 					placeholder={placeholder}
-					ref={inputRef}
+					ref={setRefs(inputRef, r ?? r)}
 					required={required ? true : false}
 					name={name}
 					type={inputType}

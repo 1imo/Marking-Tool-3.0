@@ -5,6 +5,7 @@ import "./Styles.css";
 import NavBar from "../../Organisms/Nav-Bar/Index";
 import InputGrid from "../../Organisms/Input-Grid/Index";
 import { Props } from "../../Molecules/Input/Index";
+import UIMain from "../../Organisms/UI-Main/Index";
 
 const Home: FC = () => {
 	const inputFields = [
@@ -23,10 +24,12 @@ const Home: FC = () => {
 
 	const [data, setData] = useState(inputFields);
 
+	const [UI, setUI] = useState();
+
 	return (
 		<main className="home">
 			<MenuLeft />
-			<InputGrid type="double" data={data} remove={true} cb={setData} />
+			<UIMain />
 			<MenuRight />
 		</main>
 	);

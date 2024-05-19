@@ -32,12 +32,12 @@ const Text: FC<Props> = ({ size, text, colour = "--grey-two", padding }) => {
 
 	const paddingClasses = usePadding(padding, true);
 
-	console.log({ color: `var(${colour}) !important;` });
+	console.log(`var(${colour}) !important;`);
 
 	return (
 		<p
-			className={`${classname} ${paddingClasses}`}
-			style={{ color: `var(${colour}) !important;` }}
+			className={`${classname} ${paddingClasses}`.trimEnd()}
+			style={{ color: `var(${colour})` }}
 		>
 			{text}
 		</p>
