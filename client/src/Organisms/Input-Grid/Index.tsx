@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import Input, { Props as InputProps } from "../../Molecules/Input/Index";
 import BtnIcon from "../../Molecules/Btn-Icon/Index";
 import "./Styles.css";
+import BtnGrid from "../Btn-Grid/Index";
 
 type Type = "single" | "double";
 
@@ -46,6 +47,16 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb }) => {
 						})}
 				</div>
 			))}
+			<BtnGrid
+				cbPrim={() => {}}
+				textPrim="Back"
+				bgOne="--grey-three"
+				colourOne="--grey-one"
+				cbSec={() => {}}
+				bgTwo="--red"
+				colourTwo="--white"
+				textSec="Continue"
+			/>
 		</section>
 	);
 };
