@@ -1,0 +1,57 @@
+.btn-icon {
+	border-radius: 16px;
+	background-color: var(--grey-three);
+	padding: 12px;
+	margin: 0;
+	border: none;
+	aspect-ratio: 1/1;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+	touch-action: manipulation;
+}
+
+.btn-icon:hover,
+.btn-icon:focus {
+	background-color: var(--grey-two);
+}
+
+.btn-icon:hover > svg > path,
+.btn-icon:focus > svg > path {
+	stroke: var(--grey-three);
+}
+
+.btn-icon:active,
+.btn-icon:active > svg > path {
+	background-color: var(--grey-one);
+}
+
+.btn-icon:active > svg > path {
+	stroke: var(--grey-three);
+}
+
+.btn-icon:not(:hover) {
+	background-color: var(--grey-three);
+}
+
+.btn-icon:not(:hover) > svg > path {
+	stroke: var(--grey-one);
+}
+
+@media (hover: none) {
+	.btn-icon {
+		background-color: var(--grey-two);
+		touch-action: manipulation;
+		transition: background-color 0.2s ease, transform 0.1s ease;
+	}
+
+	.btn-icon > svg > path {
+		stroke: var(--grey-three);
+	}
+
+	.btn-icon:active {
+		background-color: var(--grey-one);
+	}
+
+	.btn-icon:active > svg > path {
+		stroke: var(--grey-three);
+	}
+}

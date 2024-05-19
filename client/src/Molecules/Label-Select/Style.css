@@ -1,0 +1,34 @@
+.label-select {
+	/* padding: 12px 32px; */
+	/* background: var(--grey-three); */
+	border-radius: 16px;
+	cursor: pointer;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+	height: min-content;
+	width: min-content;
+}
+
+.label-select > p {
+	transition: color 0.3s ease;
+}
+
+@media (hover: hover) {
+	.label-select:not(.label-select--selected):hover > p,
+	.label-select:not(.label-select--selected):focus > p {
+		color: var(--grey-three) !important;
+	}
+
+	.label-select:not(.label-select--selected):active > p {
+		color: var(--grey-three) !important;
+	}
+
+	.label-select:not(.label-select--selected):not(:hover) > p {
+		color: var(--grey-two) !important;
+	}
+}
+
+@media (hover: none) {
+	.label-select:not(.label-select--selected):active > p {
+		color: var(--grey-three) !important;
+	}
+}

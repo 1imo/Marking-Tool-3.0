@@ -1,0 +1,61 @@
+.btn-main {
+	background: var(--grey-three);
+	box-shadow: none;
+	border: none;
+	padding: 12px 24px;
+	width: 100%;
+	border-radius: 16px;
+	transition: background-color 0.3s ease-in-out, color 0.3s ease,
+		transform 0.2s ease;
+	touch-action: manipulation;
+}
+
+.btn-main > p {
+	font-weight: var(--font-weight-medium);
+}
+
+.btn-main:hover,
+.btn-main:focus {
+	background-color: var(--grey-two);
+}
+
+.btn-main:hover > p,
+.btn-main:focus > p {
+	color: var(--grey-three) !important;
+}
+
+.btn-main:active {
+	background-color: var(--grey-one);
+}
+
+.btn-main:active > p {
+	color: var(--grey-three) !important;
+}
+
+.btn-main:not(:hover) {
+	background: var(--grey-three);
+}
+
+.btn-main:not(:hover) > p {
+	color: var(--grey-one) !important;
+}
+
+@media (hover: none) {
+	.btn-main {
+		background-color: var(--grey-two);
+		touch-action: manipulation;
+		transition: background-color 0.2s ease, transform 0.1s ease;
+	}
+
+	.btn-main > p {
+		color: var(--grey-three) !important;
+	}
+
+	.btn-main:active {
+		background-color: var(--grey-one);
+	}
+
+	.btn-main:active > p {
+		color: var(--grey-three) !important;
+	}
+}
