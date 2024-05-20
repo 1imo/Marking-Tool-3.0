@@ -5,31 +5,16 @@ import { useNavigate } from "react-router";
 
 // Types
 type Icon = "Basket" | "Back" | "Remove";
-type Colour =
-	| "--grey-one"
-	| "--grey-two"
-	| "--grey-three"
-	| "--grey-four"
-	| "--white"
-	| "--red";
+type Colour = "--grey-one" | "--grey-two" | "--grey-three" | "--grey-four" | "--white" | "--red";
 
 // Props
 interface Props {
 	type: Icon;
 	colour?: Colour;
+	cb?: (ord: number) => void;
 }
 
-const BtnIcon: FC<Props> = ({ type, colour = "--grey-one" }) => {
-	const navigate = useNavigate();
-
-	const handleClick = () => {
-		if (type == "Back") {
-			navigate(-1);
-		} else if (type == "Basket") {
-			navigate("/basket");
-		}
-	};
-
+const BtnIcon: FC<Props> = ({ type, colour = "--grey-one", cb }) => {
 	let icon;
 
 	switch (type) {
@@ -42,7 +27,7 @@ const BtnIcon: FC<Props> = ({ type, colour = "--grey-one" }) => {
 	}
 
 	return (
-		<button className="btn-icon" onClick={handleClick}>
+		<button className="btn-icon" onClick={cb}>
 			{icon}
 		</button>
 	);

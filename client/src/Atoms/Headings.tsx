@@ -19,18 +19,13 @@ interface Props {
 	text: string;
 	colour?: HeadingColour;
 	padding?: Padding;
+	cb?: () => void;
 }
 
 // Returns a heading element
 // A secondary heading is smaller than a primary heading by step of one
 // Defaults to --grey-one
-const Heading: FC<Props> = ({
-	type,
-	size,
-	text,
-	colour = "--grey-one",
-	padding,
-}) => {
+const Heading: FC<Props> = ({ type, size, text, colour = "--grey-one", padding, cb }) => {
 	let HeadingElement;
 
 	if (type === "Primary") {
@@ -56,6 +51,7 @@ const Heading: FC<Props> = ({
 		{
 			style: { color: `var(${colour})` },
 			className: paddingClasses,
+			onclick: cb,
 		},
 		text
 	);
