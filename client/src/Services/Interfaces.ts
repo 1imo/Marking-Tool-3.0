@@ -3,7 +3,7 @@ export interface GradeBound {
 	id?: number;
 	name: string;
 	lb: number;
-	testID: string;
+	testID: number;
 }
 
 export interface Question {
@@ -18,7 +18,7 @@ export interface Question {
 export interface Test {
 	id?: number;
 	name: string;
-	classID: string;
+	classID: number;
 	questions: number;
 	marks: number;
 }
@@ -30,8 +30,8 @@ export interface Class {
 
 export interface TestResult {
 	id?: number;
-	studentID: string;
-	testID: string;
+	studentName: string;
+	testID: number;
 	grade: string;
 	marks: number;
 	percentage: number;

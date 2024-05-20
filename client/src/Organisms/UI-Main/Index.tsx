@@ -4,7 +4,6 @@ import BtnIcon from "../../Molecules/Btn-Icon/Index";
 import "./Styles.css";
 import BtnGrid from "../Btn-Grid/Index";
 import { TestResult } from "../../Services/Interfaces";
-import { InMemory } from "../../Services/Memory";
 
 interface Props {
 	cb?: () => void;
@@ -31,28 +30,27 @@ const UIMain: FC<Props> = ({ cb }) => {
 	}
 
 	function next() {
-		if (studentName?.current?.value && marks?.current?.value) {
-			const mode = InMemory.getCurrentMode();
-
-			if (mode === "Calculate") {
-				InMemory.submitTest(studentName?.current!.value, parseInt(marks.current!.value));
-			} else {
-				student = {
-					studentID: studentName?.current!.value,
-					testID: "1",
-					grade: "A",
-					marks: parseInt(marks.current!.value),
-					percentage: 0,
-				};
-			}
-		}
-		student = {
-			studentID: studentName?.current!.value,
-			testID: "1",
-			grade: "A",
-			marks: parseInt(marks.current!.value),
-			percentage: 0,
-		};
+		// if (studentName?.current?.value && marks?.current?.value) {
+		// 	// const mode = InMemory.getCurrentMode();
+		// 	if (mode === "Calculate") {
+		// 		// InMemory.submitTest(studentName?.current!.value, parseInt(marks.current!.value));
+		// 	} else {
+		// 		student = {
+		// 			studentID: studentName?.current!.value,
+		// 			testID: "1",
+		// 			grade: "A",
+		// 			marks: parseInt(marks.current!.value),
+		// 			percentage: 0,
+		// 		};
+		// 	}
+		// }
+		// student = {
+		// 	studentID: studentName?.current!.value,
+		// 	testID: "1",
+		// 	grade: "A",
+		// 	marks: parseInt(marks.current!.value),
+		// 	percentage: 0,
+		// };
 	}
 
 	return (
