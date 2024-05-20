@@ -40,5 +40,15 @@ export interface TestResult {
 export enum Mode {
 	Calculate = "Calculate",
 	Manual = "Manual",
-	Auto = "Auto",
+	Auto = "Auto Scan",
+}
+
+export enum Actions {
+	CreateClass = "Create Class",
+	DeleteClass = "Delete Class",
+	EditTestConfig = "Edit Test Config",
+	CreateTest = "Create Test",
+	DeleteTest = "Delete Test",
+	EditGradeBounds = "Edit Grade Bounds",
+	DeleteGradeBounds = "Delete Grade Bounds",
 }

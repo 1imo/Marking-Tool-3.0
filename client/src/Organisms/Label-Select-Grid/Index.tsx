@@ -1,11 +1,12 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import LabelSelect from "../../Molecules/Label-Select/Index";
 import "./Style.css";
+import { Mode } from "../../Services/Interfaces";
 
 interface Props {
-	options: Array<string>;
-	selected?: string;
-	callback?: (selected: string) => void;
+	options: Array<string | Mode>;
+	selected?: string | Mode;
+	callback?: (selected: string | Mode) => void;
 }
 
 const LabelSelectGrid: FC<Props> = ({ options, selected, callback }) => {
@@ -14,11 +15,9 @@ const LabelSelectGrid: FC<Props> = ({ options, selected, callback }) => {
 			{options.map((option, index) => (
 				<LabelSelect
 					key={index}
-					selected={
-						(selected == undefined ?? true) || option == selected
-					}
-					text={option}
-					callback={callback}
+					selected={selected === undefined || option === selected}
+					text={option.toString()}
+					callback={() => callback?.(option)}
 				/>
 			))}
 		</div>

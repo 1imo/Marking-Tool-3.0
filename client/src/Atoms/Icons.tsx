@@ -16,13 +16,7 @@ type IconType =
 	| "Pie"
 	| "Info";
 
-type Colour =
-	| "--grey-one"
-	| "--grey-two"
-	| "--grey-three"
-	| "--grey-four"
-	| "--white"
-	| "--red";
+type Colour = "--grey-one" | "--grey-two" | "--grey-three" | "--grey-four" | "--white" | "--red";
 
 // Props
 interface Props {
@@ -38,12 +32,7 @@ const Icon: FC<Props> = ({ type, colour = "--grey-one" }) => {
 	switch (type) {
 		case "Link":
 			icon = (
-				<svg
-					viewBox="0 0 32 32"
-					style={{}}
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
+				<svg viewBox="0 0 32 32" style={{}} fill="none" xmlns="http://www.w3.org/2000/svg">
 					<defs>
 						<mask id="link-mask">
 							<rect width="32" height="32" fill="white" />
@@ -268,9 +257,9 @@ const Icon: FC<Props> = ({ type, colour = "--grey-one" }) => {
 					<path
 						d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12M12 3C16.9706 3 21 7.02944 21 12M12 3V12M21 12H12M18 18.5L12 12"
 						stroke={`var(${colour})`}
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
 					/>
 				</svg>
 			);
@@ -286,9 +275,9 @@ const Icon: FC<Props> = ({ type, colour = "--grey-one" }) => {
 					<path
 						d="M12 11V16M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21ZM12.0498 8V8.1L11.9502 8.1002V8H12.0498Z"
 						stroke={`var(${colour})`}
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
 					/>
 				</svg>
 			);
