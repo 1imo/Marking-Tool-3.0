@@ -31,7 +31,10 @@ const content = {
 				Class.editClass(Class.getCurrentClass()?.name || "", arg);
 				window.location.reload();
 			}}
-			removeCb={(arg: string) => Class.deleteClass(arg)}
+			removeCb={(arg: string) => {
+				Class.deleteClass(arg);
+				window.location.reload();
+			}}
 		/>
 	),
 	"Create Test": () => (
@@ -57,7 +60,11 @@ const content = {
 					Test.updateTest(Test.getCurrentTest()?.name || "", arg);
 					window.location.reload();
 				}}
-				removeCb={(arg: string) => Test.deleteTest(arg)}
+				removeCb={(arg: string) => {
+					console.log(arg, "DELETE");
+					Test.deleteTest(arg);
+					window.location.reload();
+				}}
 			/>
 		);
 	},
