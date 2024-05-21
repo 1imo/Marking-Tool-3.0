@@ -32,6 +32,11 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb }) => {
 			}, []);
 		}
 
+		refs.forEach((r) => {
+			console.log(r?.current.value, "REFFFF");
+		});
+
+		console.log("🚀 ~ next ~ values:", values, refs);
 		cb(values);
 	};
 
@@ -55,11 +60,13 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb }) => {
 
 							if (shouldRender) refs.push(useRef<HTMLInputElement>(null));
 
+							console.log(value, typeof value, "VALUE");
+
 							return shouldRender ? (
 								<Input
 									key={`${index}-${i}`}
 									placeholder={`${value}`}
-									inputType={typeof value === "string" ? "text" : "number"}
+									inputType={"text"}
 									r={refs[refs.length - 1]}
 								/>
 							) : null;

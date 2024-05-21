@@ -4,6 +4,7 @@ import Heading from "../../Atoms/Headings";
 import { Class } from "../../Services/Class";
 import { Test } from "../../Services/Test";
 import { Class as ClassType, Test as TestType } from "../../Services/Interfaces";
+import { Emitter } from "../../Services/emitter.config";
 
 interface Props {
 	cb: (() => void)[];
@@ -72,32 +73,53 @@ const MenuRight: FC<Props> = ({ cb }) => {
 		cb[3];
 	}, [classes]);
 
-	const handleSetClass = (value: string) => {
+	const handleChange = (change: "Class" | "Test", value: string) => {
 		let changed = false;
-		console.log("🚀 ~ handleSetClass ~ changed 1:", changed);
 
-		setClass((prev) => {
-			if (prev === value) {
-				changed = true;
+		if (change === "Class") {
+			setClass((prev) => {
+				if (prev === value) {
+					changed = true;
 
-				return `${value}`;
-			}
+					return `${value}`;
+				}
 
-			return value;
-		});
+				return value;
+			});
 
-		console.log("🚀 ~ handleSetClass ~ changed 2:", changed);
+			if (changed) cb[3]();
+		}
 
-		if (changed) cb[3]();
+		if (change === "Test") {
+			setTest((prev) => {
+				if (prev === value) {
+					changed = true;
+
+					return `${value}`;
+				}
+
+				return value;
+			});
+
+			if (changed) cb[1]();
+		}
 	};
 
 	return (
 		<section className="menu--right">
 			<Heading type="Primary" size="three" text="Test" cb={cb[0]} />
-			<LabelSelectGrid options={tests} selected={test} callback={setTest} />
+			<LabelSelectGrid
+				options={tests}
+				selected={test}
+				callback={(value: string) => handleChange("Test", value)}
+			/>
 
 			<Heading type="Primary" size="three" text="Class" cb={cb[2]} />
-			<LabelSelectGrid options={classes} selected={class_} callback={handleSetClass} />
+			<LabelSelectGrid
+				options={classes}
+				selected={class_}
+				callback={(value: string) => handleChange("Class", value)}
+			/>
 		</section>
 	);
 };

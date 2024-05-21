@@ -2,6 +2,7 @@ import { db } from "./Db";
 import { Class } from "./Class";
 import { Mode, TestResult, Test as TestType } from "./Interfaces";
 import { Class as ClassType } from "./Interfaces";
+import { Emitter } from "./emitter.config";
 
 // Manage Test creation, storage, and retrieval
 export class Test {
@@ -27,6 +28,7 @@ export class Test {
 			const test = await db.tests.where({ name }).first();
 			if (test) {
 				this.currentTest = test;
+				Emitter.emit("test", true);
 			} else {
 				throw new Error(`Test ${name} not found`);
 			}
@@ -65,15 +67,17 @@ export class Test {
 			};
 
 			await db.tests.add(test);
+			Emitter.emit("test", true);
 		} catch (error) {
 			console.error("Error adding test:", error);
 			throw error;
 		}
 	}
 
-	static async deleteTest(testId: number): Promise<void> {
+	static async deleteTest(name: string): Promise<void> {
 		try {
-			await db.tests.delete(testId);
+			await db.tests.where({ name }).delete();
+			Emitter.emit("test", true);
 		} catch (error) {
 			console.error("Error deleting test:", error);
 			throw error;
@@ -92,6 +96,7 @@ export class Test {
 				if (marks !== undefined) test.marks = marks;
 
 				await db.tests.put(test);
+				Emitter.emit("test", true);
 			} else {
 				throw new Error(`Test with id ${currentTest.id} not found`);
 			}

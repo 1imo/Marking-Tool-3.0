@@ -1,5 +1,6 @@
 import { db } from "./Db";
 import { Class as ClassType } from "./Interfaces";
+import { Emitter } from "./emitter.config";
 
 export class Class {
 	private static currentClass: ClassType | null = null;
@@ -25,6 +26,7 @@ export class Class {
 			} else {
 				throw new Error(`Class with name ${query.name} not found`); // Use query.name for error message
 			}
+			Emitter.emit("class", true);
 		} catch (error) {
 			console.error("Error setting current class:", error);
 		}
@@ -43,6 +45,7 @@ export class Class {
 	static async addClass(className: string): Promise<void> {
 		try {
 			await db.classes.add({ name: className });
+			Emitter.emit("class", true);
 		} catch (error) {
 			console.error("Error adding class:", error);
 			throw error;
@@ -52,6 +55,7 @@ export class Class {
 	static async deleteClass(className: string): Promise<void> {
 		try {
 			await db.classes.delete({ name: className });
+			Emitter.emit("class", true);
 		} catch (error) {
 			console.error("Error deleting class:", error);
 			throw error;
@@ -61,6 +65,7 @@ export class Class {
 	static async editClass(className: string, newClassName: string): Promise<void> {
 		try {
 			await db.classes.where({ name: className }).modify({ name: newClassName });
+			Emitter.emit("class", true);
 		} catch (error) {
 			console.error("Error editing class:", error);
 			throw error;

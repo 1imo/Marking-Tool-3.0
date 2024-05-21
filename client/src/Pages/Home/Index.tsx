@@ -15,15 +15,22 @@ const content = {
 			type="single"
 			data={[{ name: "Class Name" }]}
 			remove={false}
-			cb={(arg: string) => Class.addClass(arg)}
+			cb={(arg: string) => {
+				Class.addClass(arg);
+				window.location.reload();
+			}}
 		/>
 	),
 	"Edit Class": () => (
 		<InputGrid
 			type="single"
-			data={[{ name: Class.getCurrentClass()?.name || "" }]}
+			data={[{ name: Class.getCurrentClass()?.name }]}
 			remove={true}
-			cb={(arg: string) => Class.editClass(Class.getCurrentClass()?.name || "", arg)}
+			cb={(arg: string) => {
+				console.log(Class.getCurrentClass()?.name, arg);
+				Class.editClass(Class.getCurrentClass()?.name || "", arg);
+				window.location.reload();
+			}}
 			removeCb={(arg: string) => Class.deleteClass(arg)}
 		/>
 	),
@@ -32,7 +39,10 @@ const content = {
 			type="single"
 			data={[{ name: "Test Name" }]}
 			remove={false}
-			cb={(arg: string) => Test.addTest(arg)}
+			cb={(arg: string) => {
+				Test.addTest(arg);
+				window.location.reload();
+			}}
 		/>
 	),
 	"Edit Test": async () => {
@@ -43,7 +53,10 @@ const content = {
 				type="single"
 				data={testNames}
 				remove={true}
-				cb={(arg: string) => Test.editTest(Test.getCurrentTest()?.name || "", arg)}
+				cb={(arg: string) => {
+					Test.updateTest(Test.getCurrentTest()?.name || "", arg);
+					window.location.reload();
+				}}
 				removeCb={(arg: string) => Test.deleteTest(arg)}
 			/>
 		);

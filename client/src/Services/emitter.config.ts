@@ -1,6 +1,6 @@
 type EventCallback = (...args: any[]) => void;
 
-export class EventEmitter {
+class EventEmitter {
 	private events: { [eventName: string]: EventCallback[] };
 
 	constructor() {
@@ -16,9 +16,7 @@ export class EventEmitter {
 
 	off(eventName: string, callback: EventCallback): void {
 		if (this.events[eventName]) {
-			this.events[eventName] = this.events[eventName].filter(
-				(cb) => cb !== callback
-			);
+			this.events[eventName] = this.events[eventName].filter((cb) => cb !== callback);
 		}
 	}
 
@@ -30,3 +28,5 @@ export class EventEmitter {
 		}
 	}
 }
+
+export const Emitter = new EventEmitter();
