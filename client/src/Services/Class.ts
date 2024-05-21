@@ -1,10 +1,11 @@
 import { db } from "./Db";
+import { Class as ClassType } from "./Interfaces";
 
 export class Class {
-	private static currentClass: Class | null = null;
+	private static currentClass: ClassType | null = null;
 	id: any;
 
-	static getCurrentClass(): Class | null {
+	static getCurrentClass(): ClassType | null {
 		return this.currentClass;
 	}
 
@@ -18,11 +19,10 @@ export class Class {
 			}
 		} catch (error) {
 			console.error("Error setting current class:", error);
-			throw error;
 		}
 	}
 
-	static async getAllClasses(): Promise<Class[]> {
+	static async getAllClasses(): Promise<ClassType[]> {
 		try {
 			const classes = await db.classes.toArray();
 			return classes;
@@ -37,6 +37,24 @@ export class Class {
 			await db.classes.add({ name: className });
 		} catch (error) {
 			console.error("Error adding class:", error);
+			throw error;
+		}
+	}
+
+	static async deleteClass(className: string): Promise<void> {
+		try {
+			await db.classes.delete({ name: className });
+		} catch (error) {
+			console.error("Error deleting class:", error);
+			throw error;
+		}
+	}
+
+	static async editClass(className: string, newClassName: string): Promise<void> {
+		try {
+			await db.classes.where({ name: className }).modify({ name: newClassName });
+		} catch (error) {
+			console.error("Error editing class:", error);
 			throw error;
 		}
 	}

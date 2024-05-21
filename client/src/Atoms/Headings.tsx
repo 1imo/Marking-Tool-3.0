@@ -51,7 +51,7 @@ const Heading: FC<Props> = ({ type, size, text, colour = "--grey-one", padding, 
 		{
 			style: { color: `var(${colour})` },
 			className: paddingClasses,
-			onclick: cb,
+			onClick: cb,
 		},
 		text
 	);

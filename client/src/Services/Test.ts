@@ -1,6 +1,7 @@
 import { db } from "./Db";
 import { Class } from "./Class";
 import { Mode, TestResult, Test as TestType } from "./Interfaces";
+import { Class as ClassType } from "./Interfaces";
 
 // Manage Test creation, storage, and retrieval
 export class Test {
@@ -20,13 +21,14 @@ export class Test {
 		return this.currentTest;
 	}
 
-	static async setCurrentTest(testId: number): Promise<void> {
+	// I know I should be working with IDs.
+	static async setCurrentTest(name: string): Promise<void> {
 		try {
-			const test = await db.tests.get(testId);
+			const test = await db.tests.where({ name }).first();
 			if (test) {
 				this.currentTest = test;
 			} else {
-				throw new Error(`Test with id ${testId} not found`);
+				throw new Error(`Test ${name} not found`);
 			}
 		} catch (error) {
 			console.error("Error setting current test:", error);
@@ -34,20 +36,23 @@ export class Test {
 		}
 	}
 
-	static async getAllTests(): Promise<TestType[]> {
+	static async getAllTests(
+		currentClass: ClassType | null = Class.getCurrentClass()
+	): Promise<TestType[]> {
 		try {
-			const currentClass = Class.getCurrentClass();
-			if (!currentClass) throw new Error("No class selected");
+			if (!currentClass) {
+				throw new Error("No class selected");
+			}
 
 			const tests = await db.tests.where({ classID: currentClass.id }).toArray();
 			return tests;
 		} catch (error) {
 			console.error("Error getting all tests:", error);
-			throw error;
+			return [];
 		}
 	}
 
-	static async addTest(name: string, questions: number, marks: number): Promise<void> {
+	static async addTest(name: string, questions: number = 0, marks: number = 0): Promise<void> {
 		try {
 			const currentClass = Class.getCurrentClass();
 			if (!currentClass) throw new Error("No class selected");
@@ -127,7 +132,7 @@ export class Test {
 		};
 	}
 
-	static async submitTestResult(name: string, marks: number): Promise<void> {
+	private static async submitTestResult(name: string, marks: number): Promise<void> {
 		try {
 			const currentClass = Class.getCurrentClass();
 			const currentTest = Test.getCurrentTest();

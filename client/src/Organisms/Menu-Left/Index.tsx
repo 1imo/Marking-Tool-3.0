@@ -4,7 +4,11 @@ import Heading from "../../Atoms/Headings";
 import { Test } from "../../Services/Test";
 import { Mode } from "../../Services/Interfaces";
 
-const MenuLeft: FC = () => {
+interface Props {
+	cb?: (...args: any[]) => void;
+}
+
+const MenuLeft: FC<Props> = ({ cb }) => {
 	const options = Object.values(Mode);
 	const config = { questions: 12, marks: 100 };
 	const boundaries = { a: "80%", b: "60%", c: "40%", d: "20%" };

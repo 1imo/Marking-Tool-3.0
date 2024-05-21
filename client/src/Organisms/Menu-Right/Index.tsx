@@ -1,30 +1,67 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import LabelSelectGrid from "../Label-Select-Grid/Index";
 import Heading from "../../Atoms/Headings";
 import { Class } from "../../Services/Class";
+import { Test } from "../../Services/Test";
+import { Class as ClassType, Test as TestType } from "../../Services/Interfaces";
 
-const MenuRight: FC = () => {
-	const tests = [
-		"Formative_A1_PoetryAnalysis",
-		"Summative_T1_Shakespeare_Macbeth",
-		"Diagnostic_ReadingComprehensionAssessment",
-		"Benchmark_Writing_PersuasiveEssay",
-		"Checkpoint_Grammar_PunctuationRules",
-		"Progress_SpeakingListening_DebateSkills",
-	];
-	const [test, setTest] = useState(tests[0]);
+interface Props {
+	cb: (() => void)[];
+}
 
-	const classes = ["9Y2E-G1", "7M1A-S3", "8S3F-G2", "11B2C-S1", "10G1D-G3"];
-	const [class_, setClass] = useState(classes[0]);
+const MenuRight: FC<Props> = ({ cb }) => {
+	const [tests, setTests] = useState<string[]>([]);
+	const [classes, setClasses] = useState<string[]>([]);
+	const [test, setTest] = useState<string>("");
+	const [class_, setClass] = useState<string>("");
 
-	Class.setCurrentClass(class_);
+	async function callData() {
+		const classObj = await Class.getAllClasses();
+		const testNames = (await Test.getAllTests(classObj[0])).map((test) => test.name);
+		const classNames = classObj.map((class_) => class_.name);
+
+		setTests(testNames);
+		setClasses(classNames);
+
+		setTest(testNames[0] || "");
+		setClass(classNames[0] || "");
+
+		Class.setCurrentClass(class_);
+		Test.setCurrentTest(test);
+	}
+
+	useEffect(() => {
+		callData();
+		console.log("RERENDER");
+	}, []);
+
+	useEffect(() => {
+		if (test == Test.getCurrentTest()?.name) cb[1](); // Edit Test Name
+	}, [test]);
+
+	useEffect(() => {
+		// No idea why it is coming back in an array
+		const correctLength: boolean =
+			class_.length === 1 && Class.getCurrentClass()?.name.length === 1;
+
+		if (correctLength && class_[0] === Class.getCurrentClass()?.name[0]) {
+			cb[3](); // Edit Class Name
+		} else {
+			Class.setCurrentClass(class_).then(async () => {
+				const tests = await Test.getAllTests(Class.getCurrentClass());
+				const testNames = tests.map((test_) => test_?.name);
+				setTests(testNames);
+				setTest(testNames[0] || "");
+			});
+		}
+	}, [class_]);
 
 	return (
 		<section className="menu--right">
-			<Heading type="Primary" size="three" text="Test" />
+			<Heading type="Primary" size="three" text="Test" cb={() => cb[0]} />
 			<LabelSelectGrid options={tests} selected={test} callback={setTest} />
 
-			<Heading type="Primary" size="three" text="Class" />
+			<Heading type="Primary" size="three" text="Class" cb={() => cb[2]} />
 			<LabelSelectGrid options={classes} selected={class_} callback={setClass} />
 		</section>
 	);

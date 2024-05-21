@@ -10,17 +10,19 @@ interface Props {
 	type: Type;
 	data: any[];
 	remove: boolean;
-	cb: () => void;
+	cb: (...args: any[]) => void | Promise<void>;
+	removeCb?: (...args: any[]) => void | Promise<void>;
 }
 
-const InputGrid: FC<Props> = ({ type, data, remove, cb }) => {
+const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb }) => {
 	const refs: RefObject<HTMLInputElement>[] = [];
+
+	console.log(type, data, remove, cb, removeCb);
 
 	const next = () => {
 		let values;
 		if (type === "single") {
 			values = refs.map((ref) => ref.current?.value);
-			console.log("Single Type Values:", values);
 		} else {
 			values = refs.reduce((acc: Record<string, string | null>[], ref, i) => {
 				if (i % 2 === 1) {
@@ -37,11 +39,11 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb }) => {
 		<section className="input--grid">
 			{data.map((field, index) => (
 				<div key={index} className="input--grid-row">
-					{remove && (
+					{remove && removeCb && (
 						<BtnIcon
 							type="Remove"
 							colour="--grey-one"
-							cb={(index) => data.splice(index, 1)}
+							cb={() => removeCb(field?.name)}
 						/>
 					)}
 					{Object.values(field)
