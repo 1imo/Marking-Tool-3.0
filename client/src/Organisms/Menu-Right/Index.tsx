@@ -31,6 +31,8 @@ const MenuRight: FC<Props> = ({ cb }) => {
 
 		Class.setCurrentClass(classNames[0]);
 		Test.setCurrentTest(testNames[0]);
+
+		console.log(Test.getCurrentTest(), "RIGHT");
 	}
 
 	useEffect(() => {
@@ -61,6 +63,7 @@ const MenuRight: FC<Props> = ({ cb }) => {
 				const testNames = tests.map((test_) => test_?.name);
 				setTests(testNames);
 				setTest(testNames[0] || "");
+				Test.setCurrentTest(testNames[0] || "");
 			});
 
 			cb[4](); // Go Home

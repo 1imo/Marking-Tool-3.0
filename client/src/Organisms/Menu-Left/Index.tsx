@@ -24,6 +24,8 @@ const MenuLeft: FC<Props> = ({ cb }) => {
 
 		const gb = await Test.getGradeBounds(currentTest);
 
+		console.log("CHANGE");
+
 		setBoundaries(gb);
 		setConfig(c);
 	}
