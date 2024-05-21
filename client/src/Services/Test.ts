@@ -222,11 +222,5 @@ export class Test {
 			method: "POST",
 			body: formData,
 		});
-
-		if (response.ok) {
-			console.log("File uploaded successfully");
-		} else {
-			console.error("Error uploading file");
-		}
 	}
 }

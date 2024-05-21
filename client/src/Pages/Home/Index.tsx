@@ -4,14 +4,13 @@ import MenuRight from "../../Organisms/Menu-Right/Index";
 import "./Styles.css";
 import NavBar from "../../Organisms/Nav-Bar/Index";
 import InputGrid from "../../Organisms/Input-Grid/Index";
-import { Props } from "../../Molecules/Input/Index";
 import UIMain from "../../Organisms/UI-Main/Index";
 import { Actions } from "../../Services/Interfaces";
 import { Class } from "../../Services/Class";
 import { Test } from "../../Services/Test";
 
 const content = {
-	"Create Class": (
+	"Create Class": () => (
 		<InputGrid
 			type="single"
 			data={[{ name: "Class Name" }]}
@@ -19,16 +18,16 @@ const content = {
 			cb={(arg: string) => Class.addClass(arg)}
 		/>
 	),
-	"Edit Class": (
+	"Edit Class": () => (
 		<InputGrid
 			type="single"
-			data={[{ name: Class.getCurrentClass()?.name }]}
+			data={[{ name: Class.getCurrentClass()?.name || "" }]}
 			remove={true}
 			cb={(arg: string) => Class.editClass(Class.getCurrentClass()?.name || "", arg)}
 			removeCb={(arg: string) => Class.deleteClass(arg)}
 		/>
 	),
-	"Create Test": (
+	"Create Test": () => (
 		<InputGrid
 			type="single"
 			data={[{ name: "Test Name" }]}
@@ -36,16 +35,20 @@ const content = {
 			cb={(arg: string) => Test.addTest(arg)}
 		/>
 	),
-	"Edit Test": (
-		<InputGrid
-			type="single"
-			data={[{ name: Test.getAllTests().then((tests) => tests.map((test) => test?.name)) }]}
-			remove={true}
-			cb={(arg: string) => Class.editClass(Class.getCurrentClass()?.name || "", arg)}
-			removeCb={(arg: string) => Class.deleteClass(arg)}
-		/>
-	),
-	Home: <UIMain />,
+	"Edit Test": async () => {
+		const tests = await Test.getAllTests();
+		const testNames = tests.map((test) => ({ name: test?.name || "" }));
+		return (
+			<InputGrid
+				type="single"
+				data={testNames}
+				remove={true}
+				cb={(arg: string) => Test.editTest(Test.getCurrentTest()?.name || "", arg)}
+				removeCb={(arg: string) => Test.deleteTest(arg)}
+			/>
+		);
+	},
+	Home: () => <UIMain />,
 };
 
 const Home: FC = () => {
@@ -57,20 +60,22 @@ const Home: FC = () => {
 	];
 
 	const [data, setData] = useState(inputFields);
-	const [UI, setUI] = useState(content["Home"]);
+	const [UI, setUI] = useState<JSX.Element>(<UIMain />);
 
-	// export enum Actions {
-	// 	CreateClass = "Create Class",
-	// 	DeleteClass = "Delete Class",
-	// 	EditTestConfig = "Edit Test Config",
-	// 	CreateTest = "Create Test",
-	// 	DeleteTest = "Delete Test",
-	// 	EditGradeBounds = "Edit Grade Bounds",
-	// 	DeleteGradeBounds = "Delete Grade Bounds",
-	// 	Home = "Home",
-	// }
+	const handleSetUI = async (action: keyof typeof content) => {
+		const actionFunction = content[action];
 
-	const actions = Object.values(Actions);
+		if (typeof actionFunction === "function") {
+			try {
+				const result = await actionFunction();
+				setUI(() => result as JSX.Element);
+			} catch (error) {
+				console.error("Error in handleSetUI:", error);
+			}
+		} else {
+			setUI(() => actionFunction as JSX.Element);
+		}
+	};
 
 	useEffect(() => {
 		console.log(UI);
@@ -82,10 +87,11 @@ const Home: FC = () => {
 			{UI}
 			<MenuRight
 				cb={[
-					() => setUI(content["Create Test"]),
-					() => setUI(content["Edit Test"]),
-					() => setUI(content["Create Class"]),
-					() => setUI(content["Edit Class"]),
+					() => handleSetUI("Create Test"),
+					() => handleSetUI("Edit Test"),
+					() => handleSetUI("Create Class"),
+					() => handleSetUI("Edit Class"),
+					() => handleSetUI("Home"),
 				]}
 			/>
 		</main>

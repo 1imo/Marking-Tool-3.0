@@ -9,13 +9,21 @@ export class Class {
 		return this.currentClass;
 	}
 
-	static async setCurrentClass(currentClassName: string): Promise<void> {
+	static async setCurrentClass(currentClassName: string | string[]): Promise<void> {
 		try {
-			const class_ = await db.classes.get({ name: currentClassName });
+			// Ensure the query is always an object with a string name property
+			const query = Array.isArray(currentClassName)
+				? { name: currentClassName } // Take the first element if it's an array
+				: { name: [currentClassName] };
+
+			// Retrieve class from the database
+			const class_ = await db.classes.get(query);
+
+			// Check if class exists and set it
 			if (class_) {
 				this.currentClass = class_;
 			} else {
-				throw new Error(`Class with name ${currentClassName} not found`);
+				throw new Error(`Class with name ${query.name} not found`); // Use query.name for error message
 			}
 		} catch (error) {
 			console.error("Error setting current class:", error);
