@@ -87,7 +87,11 @@ const MenuRight: FC<Props> = ({ cb }) => {
 				return value;
 			});
 
-			if (changed) cb[3]();
+			if (changed) {
+				cb[3](); // Edit Class Name
+			} else {
+				cb[4](); // Go Home
+			}
 		}
 
 		if (change === "Test") {
@@ -101,7 +105,11 @@ const MenuRight: FC<Props> = ({ cb }) => {
 				return value;
 			});
 
-			if (changed) cb[1]();
+			if (changed) {
+				cb[1](); // Edit Test Name
+			} else {
+				cb[4](); // Go Home
+			}
 		}
 	};
 
