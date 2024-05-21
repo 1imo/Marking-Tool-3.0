@@ -46,10 +46,9 @@ export enum Mode {
 export enum Actions {
 	CreateClass = "Create Class",
 	EditClass = "Edit Class",
-	EditTestConfig = "Edit Test Config",
 	CreateTest = "Create Test",
-	DeleteTest = "Delete Test",
+	EditTest = "Edit Test",
+	EditTestConfig = "Edit Test Config",
 	EditGradeBounds = "Edit Grade Bounds",
-	DeleteGradeBounds = "Delete Grade Bounds",
 	Home = "Home",
 }

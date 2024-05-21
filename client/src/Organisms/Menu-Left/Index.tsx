@@ -3,16 +3,40 @@ import LabelSelectGrid from "../Label-Select-Grid/Index";
 import Heading from "../../Atoms/Headings";
 import { Test } from "../../Services/Test";
 import { Mode } from "../../Services/Interfaces";
+import { Emitter } from "../../Services/emitter.config";
 
 interface Props {
-	cb?: (...args: any[]) => void;
+	cb: (() => void)[];
 }
 
 const MenuLeft: FC<Props> = ({ cb }) => {
 	const options = Object.values(Mode);
-	const config = { questions: 12, marks: 100 };
-	const boundaries = { a: "80%", b: "60%", c: "40%", d: "20%" };
+	const [config, setConfig] = useState({});
+	const [boundaries, setBoundaries] = useState({});
 	const [mode, setMode] = useState<Mode>(options[0] as Mode);
+
+	async function callData() {
+		const currentTest = Test.getCurrentTest();
+		const c = {
+			questions: currentTest?.questions,
+			marks: currentTest?.marks,
+		};
+
+		const gb = await Test.getGradeBounds(currentTest);
+
+		setBoundaries(gb);
+		setConfig(c);
+	}
+
+	useEffect(() => {
+		Emitter.on("test", callData);
+		Emitter.on("class", callData);
+
+		return () => {
+			Emitter.off("test", callData);
+			Emitter.off("class", callData);
+		};
+	}, []);
 
 	useEffect(() => {
 		Test.setMode(mode);
@@ -31,14 +55,14 @@ const MenuLeft: FC<Props> = ({ cb }) => {
 			<Heading type="Primary" size="three" text="Mode" />
 			<LabelSelectGrid options={options} selected={mode} callback={handleModeChange} />
 
-			<Heading type="Primary" size="three" text="Test Configuration" />
+			<Heading type="Primary" size="three" text="Test Configuration" cb={cb[0]} />
 			<LabelSelectGrid
 				options={Object.entries(config).map(
 					([key, value]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`
 				)}
 			/>
 
-			<Heading type="Primary" size="three" text="Grade Boundaries" />
+			<Heading type="Primary" size="three" text="Grade Boundaries" cb={cb[1]} />
 			<LabelSelectGrid
 				options={Object.entries(boundaries).map(
 					([key, value]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`

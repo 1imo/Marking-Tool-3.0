@@ -116,14 +116,20 @@ export class Test {
 		}
 	}
 
+	static async getGradeBounds(currentTest: TestType | null) {
+		const gradeBounds = (
+			await db.gradeBounds.where({ testID: currentTest.id ?? this.currentTest }).toArray()
+		).sort((a, b) => a.lb - b.lb);
+
+		return gradeBounds;
+	}
+
 	static async getGrades(
 		studentTest: TestResult | null = null,
 		newMarks: number = 0,
 		currentTest: TestType
 	) {
-		const gradeBounds = (await db.gradeBounds.where({ testID: currentTest.id }).toArray()).sort(
-			(a, b) => a.lb - b.lb
-		);
+		const gradeBounds = await Test.getGradeBounds(currentTest);
 
 		const existingMarks = studentTest?.marks ?? 0;
 		const totalMarks = existingMarks + newMarks;

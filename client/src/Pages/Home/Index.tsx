@@ -69,6 +69,40 @@ const content = {
 		);
 	},
 	Home: () => <UIMain />,
+	"Edit Test Config": () => {
+		const test = Test.getCurrentTest();
+		const config = {
+			questions: test?.questions || 0,
+			marks: test?.marks || 0,
+		};
+
+		return (
+			<InputGrid
+				type="double"
+				data={[config]}
+				remove={false}
+				cb={(arg) => {
+					Test.updateTest(test?.name, arg[0] || null, arg[1] || null);
+					window.location.reload();
+				}}
+			/>
+		);
+	},
+	"Edit Grade Boundaries": () => {
+		return (
+			<InputGrid
+				type="double"
+				data={[Test.getGradeBounds(Test.getCurrentTest() || null)]}
+				remove={true}
+				cb={(arg: string) => {
+					console.log(arg);
+				}}
+				removeCb={(arg: string) => {
+					console.log(arg);
+				}}
+			/>
+		);
+	},
 };
 
 const Home: FC = () => {
@@ -103,7 +137,12 @@ const Home: FC = () => {
 
 	return (
 		<main className="home">
-			<MenuLeft />
+			<MenuLeft
+				cb={[
+					() => handleSetUI("Edit Test Config"),
+					() => handleSetUI("Edit Grade Boundaries"),
+				]}
+			/>
 			{UI}
 			<MenuRight
 				cb={[

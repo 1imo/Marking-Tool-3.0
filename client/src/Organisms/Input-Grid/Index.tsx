@@ -20,17 +20,7 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb }) => {
 	console.log(type, data, remove, cb, removeCb);
 
 	const next = () => {
-		let values;
-		if (type === "single") {
-			values = refs.map((ref) => ref.current?.value);
-		} else {
-			values = refs.reduce((acc: Record<string, string | null>[], ref, i) => {
-				if (i % 2 === 1) {
-					acc.push({ [refs[i - 1].current?.value || ""]: ref.current?.value || null });
-				}
-				return acc;
-			}, []);
-		}
+		const values = refs.map((ref) => ref.current?.value);
 
 		refs.forEach((r) => {
 			console.log(r?.current.value, "REFFFF");
@@ -42,37 +32,43 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb }) => {
 
 	return (
 		<section className="input--grid">
-			{data.map((field, index) => (
-				<div key={index} className="input--grid-row">
-					{remove && removeCb && (
-						<BtnIcon
-							type="Remove"
-							colour="--grey-one"
-							cb={() => removeCb(field?.name)}
-						/>
-					)}
-					{Object.values(field)
-						.reverse()
-						.map((value, i) => {
-							const isDoubleType = type === "double";
-							const isSingleType = type === "single";
-							const shouldRender = isDoubleType || (isSingleType && i === 0);
+			{data.map((item, index) => {
+				const isArray = Array.isArray(item);
 
-							if (shouldRender) refs.push(useRef<HTMLInputElement>(null));
+				const renderInput = (value: any, label?: string) => {
+					const shouldRender = type === "double" || (type === "single" && index === 0);
+					if (shouldRender) refs.push(useRef<HTMLInputElement>(null));
 
-							console.log(value, typeof value, "VALUE");
-
-							return shouldRender ? (
-								<Input
-									key={`${index}-${i}`}
-									placeholder={`${value}`}
-									inputType={"text"}
-									r={refs[refs.length - 1]}
+					return shouldRender ? (
+						<div>
+							{remove && removeCb && (
+								<BtnIcon
+									type="Remove"
+									colour="--grey-one"
+									cb={() => removeCb(isArray ? value : label ?? value)}
 								/>
-							) : null;
-						})}
-				</div>
-			))}
+							)}
+							<Input
+								key={index}
+								label={label && label.replace(label[0], label[0].toUpperCase())}
+								placeholder={`${value}`}
+								inputType="text"
+								r={refs[refs.length - 1]}
+							/>
+						</div>
+					) : null;
+				};
+
+				return (
+					<div key={index} className="input--grid-row">
+						{isArray
+							? item.map(renderInput)
+							: Object.entries(item).map(([label, value]) =>
+									renderInput(value, label)
+							  )}
+					</div>
+				);
+			})}
 			<BtnGrid
 				cbPrim={() => {}}
 				textPrim="Back"
