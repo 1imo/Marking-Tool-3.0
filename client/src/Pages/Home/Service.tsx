@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import InputGrid from "../../Organisms/Input-Grid/Index";
 import UIMain from "../../Organisms/UI-Main/Index";
 import { Class } from "../../Services/Class";
@@ -85,16 +86,23 @@ export const content = {
 			/>
 		);
 	},
-	"Edit Grade Boundaries": () => {
+	"Edit Grade Boundaries": async () => {
+		const currentTest = Test.getCurrentTest();
+
 		return (
 			<InputGrid
 				type="double"
-				data={[Test.getGradeBounds(Test.getCurrentTest() || null)]}
+				data={(await Test.getGradeBounds(currentTest || null)).map((bound) => {
+					return { LowerBound: bound.lb, grade: bound.name };
+				})}
 				remove={true}
 				cb={(arg: string) => {
-					console.log(arg);
+					Test.updateGradeBounds(currentTest, arg);
 				}}
-				removeCb={(arg: string) => {
+				buttonText={["Add Grade", ""]}
+				cbOptionals={(arg: string) => {
+					console.log(arg);
+					Test.addGradeBound(currentTest, "A", "90");
 					console.log(arg);
 				}}
 			/>

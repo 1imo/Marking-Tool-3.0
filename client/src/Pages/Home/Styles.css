@@ -15,3 +15,10 @@ main {
 .menu--right {
 	grid-column: 10 / span 2;
 }
+
+@media (min-width: 1200px) {
+	main {
+		padding-left: 10vw;
+		padding-right: 10vw;
+	}
+}

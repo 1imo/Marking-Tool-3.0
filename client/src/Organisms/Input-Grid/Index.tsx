@@ -12,17 +12,22 @@ interface Props {
 	remove: boolean;
 	cb: (...args: any[]) => void | Promise<void>;
 	removeCb?: (...args: any[]) => void | Promise<void>;
+	cbOptionals?: (...args: any[]) => void | Promise<void>;
+	buttonText?: string[];
 }
 
-const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb }) => {
+const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb, cbOptionals, buttonText }) => {
 	const refs: RefObject<HTMLInputElement>[] = [];
-
-	console.log(type, data, remove, cb, removeCb);
 
 	const next = () => {
 		const values = refs.map((ref) => ref.current?.value);
 
 		cb(values);
+	};
+
+	const back = () => {
+		const values = refs.map((ref) => ref.current?.value);
+		cbOptionals && cbOptionals(values);
 	};
 
 	return (
@@ -45,7 +50,11 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb }) => {
 							)}
 							<Input
 								key={index}
-								label={label && label.replace(label[0], label[0].toUpperCase())}
+								label={
+									label && typeof label == "string"
+										? label.replace(label?.[0], label?.[0].toUpperCase())
+										: undefined
+								}
 								placeholder={`${value}`}
 								inputType="text"
 								r={refs[refs.length - 1]}
@@ -65,14 +74,14 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb }) => {
 				);
 			})}
 			<BtnGrid
-				cbPrim={() => {}}
-				textPrim="Back"
+				cbPrim={back}
+				textPrim={buttonText?.[0] || "Back"}
 				bgOne="--grey-three"
 				colourOne="--grey-one"
 				cbSec={next}
 				bgTwo="--red"
 				colourTwo="--white"
-				textSec="Continue"
+				textSec={buttonText?.[1] || "Continue"}
 			/>
 		</section>
 	);

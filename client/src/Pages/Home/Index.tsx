@@ -28,10 +28,6 @@ const Home: FC = () => {
 		}
 	};
 
-	useEffect(() => {
-		console.log(UI);
-	}, [UI]);
-
 	return (
 		<main className="home">
 			<MenuLeft

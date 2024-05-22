@@ -66,8 +66,8 @@ const MenuLeft: FC<Props> = ({ cb }) => {
 
 			<Heading type="Primary" size="three" text="Grade Boundaries" cb={cb[1]} />
 			<LabelSelectGrid
-				options={Object.entries(boundaries).map(
-					([key, value]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`
+				options={Object.values(boundaries).map(
+					(value, index) => `${value.name}: ${value.lb}%`
 				)}
 			/>
 		</section>

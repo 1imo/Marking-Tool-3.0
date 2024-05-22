@@ -225,6 +225,43 @@ export class Test {
 		}
 	}
 
+	static addGradeBound(
+		test: TestType | null = this.currentTest,
+		grade: string,
+		lb: string
+	): void {
+		const query = { testID: test.id, name: grade, lb: +lb };
+		console.log("🚀 ~ Test ~ query:", query);
+		db.gradeBounds.add(query);
+		Emitter.emit("test", true);
+	}
+
+	static async updateGradeBounds(
+		test: TestType | null = (this.currentTest = this.currentTest),
+		input: string[]
+	) {
+		console.log("🚀 ~ Test ~ input:", input);
+		const gradeBounds = await Test.getGradeBounds(test);
+		console.log("🚀 ~ Test ~ gradeBounds:", gradeBounds);
+
+		if (gradeBounds.length !== input.length / 2) return;
+
+		for (let i = 1; i < input.length; i += 1) {
+			const grade = input[i];
+			console.log("🚀 ~ Test ~ grade:", grade);
+			const lb = input[i - 1];
+			console.log("🚀 ~ Test ~ lb:", lb);
+
+			if (grade !== "") gradeBounds[Math.round(i / 2) - 1].name = grade;
+			if (lb !== "") gradeBounds[Math.round(i / 2) - 1].lb = +lb;
+		}
+
+		console.log("🚀 ~ Test ~ gradeBounds:", gradeBounds);
+
+		await db.gradeBounds.bulkPut(gradeBounds);
+		Emitter.emit("test", true);
+	}
+
 	static async uploadTest(file: File): Promise<void> {
 		const formData = new FormData();
 		formData.append("file", file);
