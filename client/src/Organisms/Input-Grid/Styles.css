@@ -10,4 +10,5 @@
 	flex-direction: row-reverse;
 	align-items: flex-end;
 	column-gap: 8px;
+	width: 100%;
 }
