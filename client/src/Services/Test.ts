@@ -246,13 +246,17 @@ export class Test {
 
 		if (gradeBounds.length !== input.length / 2) return;
 
-		for (let i = 1; i < input.length; i += 1) {
+		for (let i = 1; i < input.length; i += 2) {
 			const grade = input[i];
 			console.log("🚀 ~ Test ~ grade:", grade);
 			const lb = input[i - 1];
 			console.log("🚀 ~ Test ~ lb:", lb);
 
 			if (grade !== "") gradeBounds[Math.round(i / 2) - 1].name = grade;
+			console.log(
+				"🚀 ~ Test ~ gradeBounds[Math.round(i / 2) - 1]:",
+				gradeBounds[Math.round(i / 2) - 1]
+			);
 			if (lb !== "") gradeBounds[Math.round(i / 2) - 1].lb = +lb;
 		}
 

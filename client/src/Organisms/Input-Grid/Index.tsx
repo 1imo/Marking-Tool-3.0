@@ -21,12 +21,13 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb, cbOptionals, b
 
 	const next = () => {
 		const values = refs.map((ref) => ref.current?.value);
-
+		console.log("🚀 ~ next ~ values:", values);
 		cb(values);
 	};
 
 	const back = () => {
 		const values = refs.map((ref) => ref.current?.value);
+		console.log("🚀 ~ back ~ values:", values);
 		cbOptionals && cbOptionals(values);
 	};
 
@@ -38,6 +39,8 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb, cbOptionals, b
 				const renderInput = (value: any, label?: string) => {
 					const shouldRender = type === "double" || (type === "single" && index === 0);
 					if (shouldRender) refs.push(useRef<HTMLInputElement>(null));
+					if (shouldRender)
+						console.log("🚀 ~ renderInput ~ refs", refs, item, value, label);
 
 					return shouldRender ? (
 						<div className="input--grid-row">
