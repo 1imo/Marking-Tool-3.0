@@ -91,9 +91,9 @@ export class Test {
 
 			const test = await db.tests.get(currentTest.id);
 			if (test) {
-				if (name !== undefined) test.name = name;
-				if (questions !== undefined) test.questions = questions;
-				if (marks !== undefined) test.marks = marks;
+				if (name) test.name = name;
+				if (questions) test.questions = questions;
+				if (marks) test.marks = marks;
 
 				await db.tests.put(test);
 				Emitter.emit("test", true);
