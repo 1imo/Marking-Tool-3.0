@@ -3,8 +3,9 @@
 	background-color: var(--grey-three);
 	padding: 12px;
 	margin: 0;
+	height: min-content;
 	border: none;
-	aspect-ratio: 1/1;
+	aspect-ratio: 1/1 !important;
 	transition: background-color 0.3s ease, transform 0.2s ease;
 	touch-action: manipulation;
 }

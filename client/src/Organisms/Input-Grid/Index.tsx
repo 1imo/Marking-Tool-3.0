@@ -22,11 +22,6 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb }) => {
 	const next = () => {
 		const values = refs.map((ref) => ref.current?.value);
 
-		refs.forEach((r) => {
-			console.log(r?.current.value, "REFFFF");
-		});
-
-		console.log("🚀 ~ next ~ values:", values, refs);
 		cb(values);
 	};
 
@@ -40,8 +35,8 @@ const InputGrid: FC<Props> = ({ type, data, remove, cb, removeCb }) => {
 					if (shouldRender) refs.push(useRef<HTMLInputElement>(null));
 
 					return shouldRender ? (
-						<div>
-							{remove && removeCb && (
+						<div className="input--grid-row">
+							{remove && removeCb && data.length > 0 && (
 								<BtnIcon
 									type="Remove"
 									colour="--grey-one"

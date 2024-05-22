@@ -54,7 +54,11 @@ export class Class {
 
 	static async deleteClass(className: string): Promise<void> {
 		try {
+			console.log("Deleting class:", className);
 			await db.classes.where({ name: className }).delete();
+			setTimeout(() => {
+				console.log("10s");
+			}, 10000);
 			Emitter.emit("class", true);
 		} catch (error) {
 			console.error("Error deleting class:", error);

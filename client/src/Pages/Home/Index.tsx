@@ -21,22 +21,25 @@ const content = {
 			}}
 		/>
 	),
-	"Edit Class": () => (
-		<InputGrid
-			type="single"
-			data={[{ name: Class.getCurrentClass()?.name }]}
-			remove={true}
-			cb={(arg: string) => {
-				console.log(Class.getCurrentClass()?.name, arg);
-				Class.editClass(Class.getCurrentClass()?.name || "", arg);
-				window.location.reload();
-			}}
-			removeCb={(arg: string) => {
-				Class.deleteClass(arg);
-				window.location.reload();
-			}}
-		/>
-	),
+	"Edit Class": async () => {
+		const currentClass = Class.getCurrentClass();
+
+		return (
+			<InputGrid // Return the component directly
+				type="single"
+				data={[{ name: currentClass?.name }]}
+				remove={true}
+				cb={(arg: string) => {
+					Class.editClass(currentClass?.name || "", arg);
+					window.location.reload();
+				}}
+				removeCb={(arg: string) => {
+					Class.deleteClass(currentClass?.name || "");
+					window.location.reload();
+				}}
+			/>
+		);
+	},
 	"Create Test": () => (
 		<InputGrid
 			type="single"

@@ -8,5 +8,6 @@
 .input--grid-row {
 	display: flex;
 	flex-direction: row-reverse;
+	align-items: flex-end;
 	column-gap: 8px;
 }
