@@ -29,6 +29,7 @@ export class Test {
 			if (test) {
 				this.currentTest = test;
 				Emitter.emit("test", true);
+				console.log("NEW TEST");
 			} else {
 				throw new Error(`Test ${name} not found`);
 			}

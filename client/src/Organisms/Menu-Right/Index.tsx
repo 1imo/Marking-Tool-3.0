@@ -76,6 +76,10 @@ const MenuRight: FC<Props> = ({ cb }) => {
 		cb[3];
 	}, [classes]);
 
+	useEffect(() => {
+		Test.setCurrentTest(test);
+	}, [test]);
+
 	const handleChange = (change: "Class" | "Test", value: string) => {
 		let changed = false;
 
